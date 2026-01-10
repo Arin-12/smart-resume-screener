@@ -6,7 +6,6 @@ import os
 # Import your modules
 # -----------------------
 from ocr.image_ocr import extract_text_from_image
-from ocr.pdf_ocr import extract_text_from_pdf
 from ocr.skill_extractor import extract_skills_from_text
 
 from matching.semantic_matcher import semantic_similarity
@@ -56,7 +55,7 @@ st.set_page_config(
 )
 
 st.markdown("<h1 style='text-align:center;'>📄 Smart Resume Screener</h1>", unsafe_allow_html=True)
-st.markdown("<h3 style='text-align:center;color:mauve;'>Multimodal ATS — PDF • Image • Text</h3>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align:center;color:gray;'>Multimodal ATS — Image • Text</h3>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center;'>Analyze resumes and get ATS insights instantly.</p>", unsafe_allow_html=True)
 st.markdown("---")
 
@@ -91,17 +90,17 @@ st.subheader("📥 Resume Input")
 
 input_mode = st.radio(
     "Choose resume input method:",
-    ["Upload File (PDF/Image)", "Paste Resume Text"],
+    ["Upload Image (PNG/JPG)", "Paste Resume Text"],
     horizontal=True
 )
 
 resume_text = ""
 
-# -------- Option 1: Upload file --------
-if input_mode == "Upload File (PDF/Image)":
+# -------- Option 1: Upload image --------
+if input_mode == "Upload Image (PNG/JPG)":
     uploaded_file = st.file_uploader(
-        "Upload Resume (PDF / PNG / JPG)",
-        type=["pdf", "png", "jpg", "jpeg"]
+        "Upload Resume Image",
+        type=["png", "jpg", "jpeg"]
     )
 
     if uploaded_file:
@@ -109,14 +108,8 @@ if input_mode == "Upload File (PDF/Image)":
             tmp.write(uploaded_file.read())
             file_path = tmp.name
 
-        st.success("✅ Resume uploaded successfully!")
-
-        ext = os.path.splitext(uploaded_file.name)[1].lower()
-
-        if ext == ".pdf":
-            resume_text = extract_text_from_pdf(file_path)
-        else:
-            resume_text = extract_text_from_image(file_path)
+        st.success("✅ Image uploaded successfully!")
+        resume_text = extract_text_from_image(file_path)
 
 # -------- Option 2: Paste text --------
 elif input_mode == "Paste Resume Text":
@@ -131,7 +124,7 @@ elif input_mode == "Paste Resume Text":
 # Safety check
 # -----------------------
 if not resume_text.strip():
-    st.info("Please upload a resume or paste resume text to continue.")
+    st.info("Please upload a resume image or paste resume text to continue.")
     st.stop()
 
 
