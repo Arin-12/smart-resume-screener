@@ -5,6 +5,13 @@ Supports **resume images** and **direct text input** to generate ATS scores, ski
 
 ---
 
+## 🌐 Live Demo
+
+👉 Try the app here:  
+https://smart-resume-screener-eeee2dun6rtutk7gjn7er5.streamlit.app/
+
+---
+
 ## 🚀 Features
 
 - 🖼 **Image OCR** — Extract text from resume images using Tesseract  
