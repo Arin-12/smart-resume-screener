@@ -1,8 +1,9 @@
+import os
 import cv2
 import pytesseract
 
-# Set Tesseract path (Windows)
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+if os.name == "nt":
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 def extract_text_from_image(image_path: str) -> str:
     img = cv2.imread(image_path)
